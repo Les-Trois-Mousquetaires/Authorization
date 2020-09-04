@@ -30,6 +30,7 @@ import Photos
 
 typealias AuthClouser = ((Bool)->())
 
+/// 定义私有全局变量,解决在iOS 13 定位权限弹框自动消失的问题
 private let locationAuthManager = CLLocationManager()
 
 public class SystemAuth: NSObject {

@@ -8,22 +8,20 @@
 
 import UIKit
 
-import Moya
-
-import Alamofire
-
-import MapKit
-
 class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
     }
     
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        
+        self.authLocation()
+    }
+    
+    func authLocation(){
         
         SystemAuth.authLocation { (result, isFirst) in
             if result{
@@ -38,9 +36,4 @@ class ViewController: UIViewController {
             }
         }
     }
-    
-}
-
-extension ViewController: CLLocationManagerDelegate {
-    
 }
