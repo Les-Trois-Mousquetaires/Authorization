@@ -30,8 +30,10 @@ import Photos
 
 typealias AuthClouser = ((Bool)->())
 
+private let locationAuthManager = CLLocationManager()
+
 public class SystemAuth: NSObject {
-    
+
     /**
      媒体资料库/Apple Music权限
      
@@ -194,6 +196,41 @@ public class SystemAuth: NSObject {
             clouser(true)
         @unknown default:
             clouser(false)
+        }
+    }
+    
+    /**
+    定位权限
+    
+    - parameters: action 权限结果闭包(有无权限,是否第一次请求权限)
+    */
+    class func authLocation(clouser: @escaping ((Bool,Bool)->())) {
+        let authStatus = CLLocationManager.authorizationStatus()
+        switch authStatus {
+        case .notDetermined:
+            //由于IOS8中定位的授权机制改变 需要进行手动授权
+            locationAuthManager.requestAlwaysAuthorization()
+            locationAuthManager.requestWhenInUseAuthorization()
+            let status = CLLocationManager.authorizationStatus()
+            if  status == .authorizedAlways || status == .authorizedWhenInUse {
+                DispatchQueue.main.async {
+                    clouser(true && CLLocationManager.locationServicesEnabled(), true)
+                }
+            }else{
+                DispatchQueue.main.async {
+                    clouser(false, true)
+                }
+            }
+        case .restricted:
+            clouser(false, false)
+        case .denied:
+            clouser(false, false)
+        case .authorizedAlways:
+            clouser(true && CLLocationManager.locationServicesEnabled(), false)
+        case .authorizedWhenInUse:
+            clouser(true && CLLocationManager.locationServicesEnabled(), false)
+        @unknown default:
+            clouser(false, false)
         }
     }
     
