@@ -10,9 +10,9 @@ import UIKit
 
 /// 媒体资料库/Apple Music
 import MediaPlayer
-
 import Alamofire
 import Photos
+import UserNotifications
 
 /**
  escaping 逃逸闭包的生命周期：
@@ -232,6 +232,21 @@ public class SystemAuth: NSObject {
             clouser(true && CLLocationManager.locationServicesEnabled(), false)
         @unknown default:
             clouser(false, false)
+        }
+    }
+    
+    /**
+     通知权限
+     
+     - parameters: action 权限结果闭包
+     */
+    class func authNotification(clouser: @escaping AuthClouser){
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .carPlay, .sound]) { (result, error) in
+            if result{
+                clouser(true)
+            }else{
+                clouser(false)
+            }
         }
     }
     

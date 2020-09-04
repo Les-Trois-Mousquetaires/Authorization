@@ -17,8 +17,13 @@ class ViewController: UIViewController {
     
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        self.authLocation()
+        SystemAuth.authNotification { (result) in
+            if result{
+                print("权限开启")
+            }else{
+                print("权限未开启")
+            }
+        }
     }
     
     func authLocation(){
