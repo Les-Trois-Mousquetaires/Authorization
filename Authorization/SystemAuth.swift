@@ -33,6 +33,10 @@ typealias AuthClouser = ((Bool)->())
 /// 定义私有全局变量,解决在iOS 13 定位权限弹框自动消失的问题
 private let locationAuthManager = CLLocationManager()
 
+import CoreMotion
+/// 防止获取无效 计步器
+private let cmPedometer = CMPedometer()
+
 public class SystemAuth: NSObject {
 
     /**
@@ -250,4 +254,18 @@ public class SystemAuth: NSObject {
         }
     }
     
+    /**
+     运动与健身
+     
+     - parameters: action 权限结果闭包
+     */
+    class func authCMPedometer(clouser: @escaping AuthClouser){
+        cmPedometer.queryPedometerData(from: Date(), to: Date()) { (pedometerData, error) in
+            if pedometerData?.numberOfSteps != nil{
+                clouser(true)
+            }else{
+                clouser(false)
+            }
+        }
+    }
 }
