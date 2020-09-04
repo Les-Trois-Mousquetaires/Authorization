@@ -12,7 +12,7 @@ import UIKit
 import MediaPlayer
 
 import Alamofire
-
+import Photos
 
 /**
  escaping 逃逸闭包的生命周期：
@@ -135,6 +135,62 @@ public class SystemAuth: NSObject {
         case .restricted:
             clouser(false)
         case .authorized:
+            clouser(true)
+        @unknown default:
+            clouser(false)
+        }
+    }
+    
+    /**
+    相册权限
+    
+    - parameters: action 权限结果闭包
+    */
+    class func authPhotoLib(clouser: @escaping AuthClouser) {
+        let authStatus = PHPhotoLibrary.authorizationStatus()
+        switch authStatus {
+        case .notDetermined:
+            PHPhotoLibrary.requestAuthorization { (status) in
+                if status == .authorized{
+                    DispatchQueue.main.async {
+                        clouser(true)
+                    }
+                }else{
+                    DispatchQueue.main.async {
+                        clouser(false)
+                    }
+                }
+            }
+        case .denied:
+            clouser(false)
+        case .restricted:
+            clouser(false)
+        case .authorized:
+            clouser(true)
+        @unknown default:
+            clouser(false)
+        }
+    }
+    
+    /**
+    麦克风权限
+    
+    - parameters: action 权限结果闭包
+    */
+    class func authMicrophone(clouser: @escaping AuthClouser) {
+        let authStatus = AVAudioSession.sharedInstance().recordPermission
+        switch authStatus {
+        case .undetermined:
+            AVAudioSession.sharedInstance().requestRecordPermission { (result) in
+                if result{
+                    clouser(true)
+                }else{
+                    clouser(false)
+                }
+            }
+        case .denied:
+            clouser(false)
+        case .granted:
             clouser(true)
         @unknown default:
             clouser(false)
