@@ -41,5 +41,79 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSFileProviderDomainUsageDescription</key>
+	<string>文件权限</string>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>Apple事件发送权限</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>始终使用蓝牙权限</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>在使用的时候使用蓝牙权限</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>日历权限</string>
+	<key>NSCameraUsageDescription</key>
+	<string>相机权限</string>
+	<key>NSContactsUsageDescription</key>
+	<string>通讯录权限</string>
+	<key>NSDesktopFolderUsageDescription</key>
+	<string>桌面文件权限</string>
+	<key>NSDocumentsFolderUsageDescription</key>
+	<string>文档文件夹权限</string>
+	<key>NSDownloadsFolderUsageDescription</key>
+	<string>下载文件夹权限</string>
+	<key>OSBundleUsageDescription</key>
+	<string>驱动程序扩展权限</string>
+	<key>NSFaceIDUsageDescription</key>
+	<string>面容ID权限</string>
+	<key>NSFileProviderPresenceUsageDescription</key>
+	<string>件提供程序状态使用说明</string>
+	<key>NSHealthClinicalHealthRecordsShareUsageDescription</key>
+	<string>健康记录使用说明</string>
+	<key>NSHealthShareUsageDescription</key>
+	<string>健康分享使用说明</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>健康更新使用说明</string>
+	<key>NSHomeKitUsageDescription</key>
+	<string>HomeKit使用说明</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>始终定位</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>始终定位使用说明</string>
+	<key>NSLocationUsageDescription</key>
+	<string>定位使用说明</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>在使用期间访问位置</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>媒体库权限</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>麦克风权限</string>
+	<key>NSMotionUsageDescription</key>
+	<string>访问运动与健身</string>
+	<key>kTCCServiceMediaLibrary</key>
+	<string>访问媒体资料库</string>
+	<key>NSNetworkVolumesUsageDescription</key>
+	<string>网络卷使用说明</string>
+	<key>NFCReaderUsageDescription</key>
+	<string>NFC扫描说明</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>写入相册</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>访问相册</string>
+	<key>NSRemindersUsageDescription</key>
+	<string>访问提醒事项</string>
+	<key>NSRemovableVolumesUsageDescription</key>
+	<string>可移动卷使用说明</string>
+	<key>NSSiriUsageDescription</key>
+	<string>Siri使用说明</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>语音识别使用说明</string>
+	<key>NSSystemAdministrationUsageDescription</key>
+	<string>系统管理使用说明</string>
+	<key>NSSystemExtensionUsageDescription</key>
+	<string>系统扩展使用说明</string>
+	<key>NSVideoSubscriberAccountUsageDescription</key>
+	<string>电视提供商使用说明
+
+</string>
 </dict>
 </plist>
