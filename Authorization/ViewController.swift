@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        SystemAuth.authSiri { (result) in
+        SystemAuth.authSpeechRecognition { (result) in
             if result{
                 print("权限开启")
             }else{

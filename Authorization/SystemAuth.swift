@@ -16,6 +16,8 @@ import UserNotifications
 import Contacts
 /// Siri权限
 import Intents
+/// 语音转文字权限
+import Speech
 
 /**
  escaping 逃逸闭包的生命周期：
@@ -315,6 +317,37 @@ public class SystemAuth: NSObject {
         switch authStatus {
         case .notDetermined:
             INPreferences.requestSiriAuthorization { (status) in
+                if status == .authorized{
+                    DispatchQueue.main.async {
+                        clouser(true)
+                    }
+                }else{
+                    DispatchQueue.main.async {
+                        clouser(false)
+                    }
+                }
+            }
+        case .restricted:
+            clouser(false)
+        case .denied:
+            clouser(false)
+        case .authorized:
+            clouser(true)
+        @unknown default:
+            clouser(false)
+        }
+    }
+    
+    /**
+     语音转文字权限
+     
+     - parameters: action 权限结果闭包
+     */
+    class func authSpeechRecognition(clouser: @escaping AuthClouser){
+        let authStatus = SFSpeechRecognizer.authorizationStatus()
+        switch authStatus {
+        case .notDetermined:
+            SFSpeechRecognizer.requestAuthorization { (status) in
                 if status == .authorized{
                     DispatchQueue.main.async {
                         clouser(true)
