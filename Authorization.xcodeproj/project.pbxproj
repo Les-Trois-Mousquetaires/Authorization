@@ -12,6 +12,7 @@
 		271D0FCF2501D784004D616C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 271D0FCD2501D784004D616C /* Main.storyboard */; };
 		271D0FD12501D785004D616C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 271D0FD02501D785004D616C /* Assets.xcassets */; };
 		271D0FD42501D785004D616C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 271D0FD22501D785004D616C /* LaunchScreen.storyboard */; };
+		271D0FDE2501E361004D616C /* SystemAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271D0FDD2501E361004D616C /* SystemAuth.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		271D0FD02501D785004D616C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		271D0FD32501D785004D616C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		271D0FD52501D785004D616C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		271D0FDD2501E361004D616C /* SystemAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemAuth.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 			children = (
 				271D0FC72501D784004D616C /* AppDelegate.swift */,
 				271D0FCB2501D784004D616C /* ViewController.swift */,
+				271D0FDD2501E361004D616C /* SystemAuth.swift */,
 				271D0FCD2501D784004D616C /* Main.storyboard */,
 				271D0FD02501D785004D616C /* Assets.xcassets */,
 				271D0FD22501D785004D616C /* LaunchScreen.storyboard */,
@@ -136,6 +139,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				271D0FCC2501D784004D616C /* ViewController.swift in Sources */,
+				271D0FDE2501E361004D616C /* SystemAuth.swift in Sources */,
 				271D0FC82501D784004D616C /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -281,7 +285,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9AC6B3PGZV;
+				DEVELOPMENT_TEAM = X86L5A5P2C;
 				INFOPLIST_FILE = Authorization/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -300,7 +304,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 9AC6B3PGZV;
+				DEVELOPMENT_TEAM = X86L5A5P2C;
 				INFOPLIST_FILE = Authorization/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
