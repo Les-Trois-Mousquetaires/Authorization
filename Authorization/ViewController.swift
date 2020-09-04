@@ -8,26 +8,27 @@
 
 import UIKit
 
+import Moya
+
+import Alamofire
+
 class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+      
     }
+    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        network()
-    }
-    
-    func mediaPlayerService() {
-        SystemAuth.authMediaPlayerService { (result) in
+        SystemAuth.authCamera { (result) in
             if result{
                 print("权限开启")
             }else{
                 print("权限未开启")
             }
         }
-        
     }
     
     func network() {

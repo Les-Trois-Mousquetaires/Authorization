@@ -11,7 +11,8 @@ import UIKit
 /// 媒体资料库/Apple Music
 import MediaPlayer
 
-import CoreTelephony
+import Alamofire
+
 
 /**
  escaping 逃逸闭包的生命周期：
@@ -68,51 +69,65 @@ public class SystemAuth: NSObject {
      - parameters: action 权限结果闭包
      */
     class func authNetwork(clouser: @escaping AuthClouser) {
-        let cellularData = CTCellularData()
         
-        switch cellularData.restrictedState {
-        case .restrictedStateUnknown:
-            switch cellularData.cellularDataRestrictionDidUpdateNotifier {
-            case .none:
-                 clouser(false)
-            case .some(_):
-                 clouser(true)
-            }
-        case .restricted:
+        let reachabilityManager = NetworkReachabilityManager(host: "www.baidu.com")
+        switch reachabilityManager?.status {
+        case .reachable(.cellular):
             clouser(true)
-        case .notRestricted:
+        case .reachable(.ethernetOrWiFi):
+            clouser(true)
+        case .none:
             clouser(false)
-        @unknown default:
+        case .notReachable:
+            clouser(false)
+//            let status = reachabilityManager?.flags
+//            switch status {
+//            case .none:
+//                clouser(false)
+//            case .some(.connectionAutomatic):
+//                clouser(false)
+//            case .some(.connectionOnDemand):
+//                clouser(false)
+//            case .some(.connectionOnTraffic):
+//                clouser(false)
+//            case .some(.connectionRequired):
+//                clouser(false)
+//            case .some(.interventionRequired):
+//                clouser(false)
+//            case .some(.isDirect):
+//                clouser(false)
+//            case .some(.isLocalAddress):
+//                clouser(false)
+//            case .some(.isWWAN):
+//                clouser(false)
+//            case .some(.reachable):
+//                clouser(false)
+//            case .some(.transientConnection):
+//                clouser(false)
+//            case .init(rawValue: 0):
+//                clouser(false)
+//            case .some(_):
+//                clouser(false)
+//            }
+        case .unknown:
             clouser(false)
         }
-//        cellularData.cellularDataRestrictionDidUpdateNotifier = { (state) in
-//            if state == CTCellularDataRestrictedState.restrictedStateUnknown ||  state == CTCellularDataRestrictedState.notRestricted {
-//                clouser(false)
-//            } else {
-//                clouser(true)
-//            }
-//        }
-//        let state = cellularData.restrictedState
-//        if state == CTCellularDataRestrictedState.restrictedStateUnknown ||  state == CTCellularDataRestrictedState.notRestricted {
-//            clouser(false)
-//        } else {
-//            clouser(true)
-//        }
     }
+
+    /**
+    相机权限
     
+    - parameters: action 权限结果闭包
+    */
     class func authCamera(clouser: @escaping AuthClouser) {
-        let authStatus = MPMediaLibrary.authorizationStatus()
+        let authStatus = AVCaptureDevice.authorizationStatus(for: .video)
         switch authStatus {
         case .notDetermined:
-            MPMediaLibrary.requestAuthorization { (status) in
-                if status == .authorized{
-                    DispatchQueue.main.async {
-                        clouser(true)
-                    }
+            AVCaptureDevice.requestAccess(for: .video) { (result) in
+                if result{
+                    clouser(true)
                 }else{
-                    DispatchQueue.main.async {
-                        clouser(false)
-                    }
+                    clouser(false)
                 }
             }
         case .denied:
