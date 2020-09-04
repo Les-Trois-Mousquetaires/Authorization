@@ -18,6 +18,8 @@ import Contacts
 import Intents
 /// 语音转文字权限
 import Speech
+/// 日历、提醒事项
+import EventKit
 
 /**
  escaping 逃逸闭包的生命周期：
@@ -143,9 +145,13 @@ public class SystemAuth: NSObject {
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video) { (result) in
                 if result{
-                    clouser(true)
+                    DispatchQueue.main.async {
+                        clouser(true)
+                    }
                 }else{
-                    clouser(false)
+                    DispatchQueue.main.async {
+                        clouser(false)
+                    }
                 }
             }
         case .denied:
@@ -201,9 +207,13 @@ public class SystemAuth: NSObject {
         case .undetermined:
             AVAudioSession.sharedInstance().requestRecordPermission { (result) in
                 if result{
-                    clouser(true)
+                    DispatchQueue.main.async {
+                        clouser(true)
+                    }
                 }else{
-                    clouser(false)
+                    DispatchQueue.main.async {
+                        clouser(false)
+                    }
                 }
             }
         case .denied:
@@ -258,9 +268,13 @@ public class SystemAuth: NSObject {
     class func authNotification(clouser: @escaping AuthClouser){
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .carPlay, .sound]) { (result, error) in
             if result{
-                clouser(true)
+                DispatchQueue.main.async {
+                    clouser(true)
+                }
             }else{
-                clouser(false)
+                DispatchQueue.main.async {
+                    clouser(false)
+                }
             }
         }
     }
@@ -273,9 +287,13 @@ public class SystemAuth: NSObject {
     class func authCMPedometer(clouser: @escaping AuthClouser){
         cmPedometer.queryPedometerData(from: Date(), to: Date()) { (pedometerData, error) in
             if pedometerData?.numberOfSteps != nil{
-                clouser(true)
+                DispatchQueue.main.async {
+                    clouser(true)
+                }
             }else{
-                clouser(false)
+                DispatchQueue.main.async {
+                    clouser(false)
+                }
             }
         }
     }
@@ -290,10 +308,14 @@ public class SystemAuth: NSObject {
         switch authStatus {
         case .notDetermined:
             CNContactStore().requestAccess(for: .contacts) { (result, error) in
-                if result {
-                    clouser(true)
+                if result{
+                    DispatchQueue.main.async {
+                        clouser(true)
+                    }
                 }else{
-                    clouser(false)
+                    DispatchQueue.main.async {
+                        clouser(false)
+                    }
                 }
             }
         case .restricted:
@@ -349,6 +371,68 @@ public class SystemAuth: NSObject {
         case .notDetermined:
             SFSpeechRecognizer.requestAuthorization { (status) in
                 if status == .authorized{
+                    DispatchQueue.main.async {
+                        clouser(true)
+                    }
+                }else{
+                    DispatchQueue.main.async {
+                        clouser(false)
+                    }
+                }
+            }
+        case .restricted:
+            clouser(false)
+        case .denied:
+            clouser(false)
+        case .authorized:
+            clouser(true)
+        @unknown default:
+            clouser(false)
+        }
+    }
+    
+    /**
+     提醒事项
+     
+     - parameters: action 权限结果闭包
+     */
+    class func authRreminder(clouser: @escaping AuthClouser){
+        let authStatus = EKEventStore.authorizationStatus(for: .reminder)
+        switch authStatus {
+        case .notDetermined:
+            EKEventStore().requestAccess(to: .reminder) { (result, error) in
+                if result{
+                    DispatchQueue.main.async {
+                        clouser(true)
+                    }
+                }else{
+                    DispatchQueue.main.async {
+                        clouser(false)
+                    }
+                }
+            }
+        case .restricted:
+            clouser(false)
+        case .denied:
+            clouser(false)
+        case .authorized:
+            clouser(true)
+        @unknown default:
+            clouser(false)
+        }
+    }
+    
+    /**
+     日历
+     
+     - parameters: action 权限结果闭包
+     */
+    class func authEvent(clouser: @escaping AuthClouser){
+        let authStatus = EKEventStore.authorizationStatus(for: .event)
+        switch authStatus {
+        case .notDetermined:
+            EKEventStore().requestAccess(to: .event) { (result, error) in
+                if result{
                     DispatchQueue.main.async {
                         clouser(true)
                     }

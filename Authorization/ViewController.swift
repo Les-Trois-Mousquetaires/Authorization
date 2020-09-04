@@ -20,7 +20,7 @@ class ViewController: UIViewController {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        SystemAuth.authSpeechRecognition { (result) in
+        SystemAuth.authEvent { (result) in
             if result{
                 print("权限开启")
             }else{
