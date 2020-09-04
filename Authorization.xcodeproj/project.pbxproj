@@ -28,6 +28,7 @@
 		271D0FD52501D785004D616C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		271D0FDD2501E361004D616C /* SystemAuth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemAuth.swift; sourceTree = "<group>"; };
 		271D0FDF2502262C004D616C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		271D0FE125023FFB004D616C /* Authorization.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Authorization.entitlements; sourceTree = "<group>"; };
 		92160A3F8AE7057983744154 /* Pods-Authorization.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Authorization.debug.xcconfig"; path = "Target Support Files/Pods-Authorization/Pods-Authorization.debug.xcconfig"; sourceTree = "<group>"; };
 		ECE9780E91249D411429943B /* Pods_Authorization.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Authorization.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -66,6 +67,7 @@
 		271D0FC62501D784004D616C /* Authorization */ = {
 			isa = PBXGroup;
 			children = (
+				271D0FE125023FFB004D616C /* Authorization.entitlements */,
 				271D0FC72501D784004D616C /* AppDelegate.swift */,
 				271D0FCB2501D784004D616C /* ViewController.swift */,
 				271D0FDD2501E361004D616C /* SystemAuth.swift */,
@@ -357,6 +359,7 @@
 			baseConfigurationReference = 92160A3F8AE7057983744154 /* Pods-Authorization.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Authorization/Authorization.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = X86L5A5P2C;
 				INFOPLIST_FILE = Authorization/Info.plist;
@@ -365,7 +368,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ltm.Authorization;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tianrui.wisdomkuangshan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -377,6 +380,7 @@
 			baseConfigurationReference = 0D46FDFF15817D5EA0748698 /* Pods-Authorization.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Authorization/Authorization.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = X86L5A5P2C;
 				INFOPLIST_FILE = Authorization/Info.plist;
@@ -385,7 +389,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ltm.Authorization;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tianrui.wisdomkuangshan;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

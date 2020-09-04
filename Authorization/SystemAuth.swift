@@ -13,6 +13,9 @@ import MediaPlayer
 import Alamofire
 import Photos
 import UserNotifications
+import Contacts
+/// Siri权限
+import Intents
 
 /**
  escaping 逃逸闭包的生命周期：
@@ -33,12 +36,13 @@ typealias AuthClouser = ((Bool)->())
 /// 定义私有全局变量,解决在iOS 13 定位权限弹框自动消失的问题
 private let locationAuthManager = CLLocationManager()
 
+/// 运动与健身权限
 import CoreMotion
 /// 防止获取无效 计步器
 private let cmPedometer = CMPedometer()
 
 public class SystemAuth: NSObject {
-
+    
     /**
      媒体资料库/Apple Music权限
      
@@ -47,6 +51,7 @@ public class SystemAuth: NSObject {
     class func authMediaPlayerService(clouser :@escaping AuthClouser) {
         let authStatus = MPMediaLibrary.authorizationStatus()
         switch authStatus {
+        /// 未作出选择
         case .notDetermined:
             MPMediaLibrary.requestAuthorization { (status) in
                 if status == .authorized{
@@ -59,12 +64,16 @@ public class SystemAuth: NSObject {
                     }
                 }
             }
+        /// 用户明确拒绝此应用程序的授权，或在设置中禁用该服务。
         case .denied:
             clouser(false)
+        /// 该应用程序未被授权使用该服务。由于用户无法改变对该服务的主动限制。此状态，并且个人可能没有拒绝授权。
         case .restricted:
             clouser(false)
+        /// 已授权
         case .authorized:
             clouser(true)
+        /// 扩展以后可能有的状态,做保护措施
         @unknown default:
             clouser(false)
         }
@@ -87,45 +96,45 @@ public class SystemAuth: NSObject {
             clouser(false)
         case .notReachable:
             clouser(false)
-//            let status = reachabilityManager?.flags
-//            switch status {
-//            case .none:
-//                clouser(false)
-//            case .some(.connectionAutomatic):
-//                clouser(false)
-//            case .some(.connectionOnDemand):
-//                clouser(false)
-//            case .some(.connectionOnTraffic):
-//                clouser(false)
-//            case .some(.connectionRequired):
-//                clouser(false)
-//            case .some(.interventionRequired):
-//                clouser(false)
-//            case .some(.isDirect):
-//                clouser(false)
-//            case .some(.isLocalAddress):
-//                clouser(false)
-//            case .some(.isWWAN):
-//                clouser(false)
-//            case .some(.reachable):
-//                clouser(false)
-//            case .some(.transientConnection):
-//                clouser(false)
-//            case .init(rawValue: 0):
-//                clouser(false)
-//            case .some(_):
-//                clouser(false)
-//            }
+            //            let status = reachabilityManager?.flags
+            //            switch status {
+            //            case .none:
+            //                clouser(false)
+            //            case .some(.connectionAutomatic):
+            //                clouser(false)
+            //            case .some(.connectionOnDemand):
+            //                clouser(false)
+            //            case .some(.connectionOnTraffic):
+            //                clouser(false)
+            //            case .some(.connectionRequired):
+            //                clouser(false)
+            //            case .some(.interventionRequired):
+            //                clouser(false)
+            //            case .some(.isDirect):
+            //                clouser(false)
+            //            case .some(.isLocalAddress):
+            //                clouser(false)
+            //            case .some(.isWWAN):
+            //                clouser(false)
+            //            case .some(.reachable):
+            //                clouser(false)
+            //            case .some(.transientConnection):
+            //                clouser(false)
+            //            case .init(rawValue: 0):
+            //                clouser(false)
+            //            case .some(_):
+            //                clouser(false)
+        //            }
         case .unknown:
             clouser(false)
         }
     }
-
-    /**
-    相机权限
     
-    - parameters: action 权限结果闭包
-    */
+    /**
+     相机权限
+     
+     - parameters: action 权限结果闭包
+     */
     class func authCamera(clouser: @escaping AuthClouser) {
         let authStatus = AVCaptureDevice.authorizationStatus(for: .video)
         switch authStatus {
@@ -149,10 +158,10 @@ public class SystemAuth: NSObject {
     }
     
     /**
-    相册权限
-    
-    - parameters: action 权限结果闭包
-    */
+     相册权限
+     
+     - parameters: action 权限结果闭包
+     */
     class func authPhotoLib(clouser: @escaping AuthClouser) {
         let authStatus = PHPhotoLibrary.authorizationStatus()
         switch authStatus {
@@ -180,10 +189,10 @@ public class SystemAuth: NSObject {
     }
     
     /**
-    麦克风权限
-    
-    - parameters: action 权限结果闭包
-    */
+     麦克风权限
+     
+     - parameters: action 权限结果闭包
+     */
     class func authMicrophone(clouser: @escaping AuthClouser) {
         let authStatus = AVAudioSession.sharedInstance().recordPermission
         switch authStatus {
@@ -205,10 +214,10 @@ public class SystemAuth: NSObject {
     }
     
     /**
-    定位权限
-    
-    - parameters: action 权限结果闭包(有无权限,是否第一次请求权限)
-    */
+     定位权限
+     
+     - parameters: action 权限结果闭包(有无权限,是否第一次请求权限)
+     */
     class func authLocation(clouser: @escaping ((Bool,Bool)->())) {
         let authStatus = CLLocationManager.authorizationStatus()
         switch authStatus {
@@ -266,6 +275,64 @@ public class SystemAuth: NSObject {
             }else{
                 clouser(false)
             }
+        }
+    }
+    
+    /**
+     通讯录权限
+     
+     - parameters: action 权限结果闭包
+     */
+    class func authContacts(clouser: @escaping AuthClouser){
+        let authStatus = CNContactStore.authorizationStatus(for: .contacts)
+        switch authStatus {
+        case .notDetermined:
+            CNContactStore().requestAccess(for: .contacts) { (result, error) in
+                if result {
+                    clouser(true)
+                }else{
+                    clouser(false)
+                }
+            }
+        case .restricted:
+            clouser(false)
+        case .denied:
+            clouser(false)
+        case .authorized:
+            clouser(true)
+        @unknown default:
+            clouser(false)
+        }
+    }
+    
+    /**
+     Siri 权限
+     
+     - parameters: action 权限结果闭包
+     */
+    class func authSiri(clouser: @escaping AuthClouser){
+        let authStatus = INPreferences.siriAuthorizationStatus()
+        switch authStatus {
+        case .notDetermined:
+            INPreferences.requestSiriAuthorization { (status) in
+                if status == .authorized{
+                    DispatchQueue.main.async {
+                        clouser(true)
+                    }
+                }else{
+                    DispatchQueue.main.async {
+                        clouser(false)
+                    }
+                }
+            }
+        case .restricted:
+            clouser(false)
+        case .denied:
+            clouser(false)
+        case .authorized:
+            clouser(true)
+        @unknown default:
+            clouser(false)
         }
     }
 }

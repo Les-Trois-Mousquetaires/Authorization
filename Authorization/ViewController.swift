@@ -8,6 +8,8 @@
 
 import UIKit
 
+import Contacts
+
 class ViewController: UIViewController {
     
     override func viewDidLoad() {
@@ -18,30 +20,14 @@ class ViewController: UIViewController {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        SystemAuth.authCMPedometer { (result) in
+        SystemAuth.authSiri { (result) in
             if result{
                 print("权限开启")
             }else{
                 print("权限未开启")
             }
         }
-        
-//        let mono = CMPedometer()
-        
-//        let date = Date()
-//        let zone = NSTimeZone.system
-//        let interval = zone.secondsFromGMT(for: date)
-//        let localDate = date.addingTimeInterval(TimeInterval(interval))
-//        let dateFormatter = DateFormatter.init()
-//        dateFormatter.dateFormat = "yyyy-MM-dd HHH:mm:ss"
-//        guard let fromDate = dateFormatter.date(from: dateFormatter.string(from: localDate)) else { return  }
-//        
-//        mono.queryPedometerData(from: Date(), to: Date()) { (pedometerData, error) in
-//            guard let data = pedometerData else{
-//                return
-//            }
-//            print(data.numberOfSteps)
-//        }
+             
     }
     
     func authLocation(){
