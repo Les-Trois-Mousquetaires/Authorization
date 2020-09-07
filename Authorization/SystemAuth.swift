@@ -20,7 +20,9 @@ import Intents
 import Speech
 /// 日历、提醒事项
 import EventKit
-
+/// Face、TouchID
+import LocalAuthentication
+import HealthKit
 /**
  escaping 逃逸闭包的生命周期：
  
@@ -452,4 +454,83 @@ public class SystemAuth: NSObject {
             clouser(false)
         }
     }
+    
+    /**
+     FaceID或者TouchID 认证
+     
+     - parameters: action 权限结果闭包
+     */
+    class func authFaceOrTouchID(clouser: @escaping ((Bool,Error)->())) {
+        let context = LAContext()
+        var error: NSError?
+        let result = context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error)
+        if result {
+            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: "认证") { (success, authError) in
+                if success{
+                    print("成功")
+                }else{
+                    print("失败")
+                }
+            }
+        }else{
+            /**
+             #define kLAErrorAuthenticationFailed                       -1
+             #define kLAErrorUserCancel                                 -2
+             #define kLAErrorUserFallback                               -3
+             #define kLAErrorSystemCancel                               -4
+             #define kLAErrorPasscodeNotSet                             -5
+             #define kLAErrorTouchIDNotAvailable                        -6
+             #define kLAErrorTouchIDNotEnrolled                         -7
+             #define kLAErrorTouchIDLockout                             -8
+             #define kLAErrorAppCancel                                  -9
+             #define kLAErrorInvalidContext                            -10
+             #define kLAErrorNotInteractive                          -1004
+             
+             #define kLAErrorBiometryNotAvailable              kLAErrorTouchIDNotAvailable
+             #define kLAErrorBiometryNotEnrolled               kLAErrorTouchIDNotEnrolled
+             
+             */
+            print("不可以使用")
+        }
+    }
+    
+    /**
+     健康  (写:体能训练、iOS13 听力图 读: 健身记录、体能训练、iOS13 听力图)
+     
+     - parameters: action 权限结果闭包
+     */
+    class func authHealth(clouser: @escaping AuthClouser){
+        if HKHealthStore.isHealthDataAvailable(){
+            let authStatus = HKHealthStore().authorizationStatus(for: .workoutType())
+            switch authStatus {
+            case .notDetermined:
+                if #available(iOS 13.0, *) {
+                    HKHealthStore().requestAuthorization(toShare: [.audiogramSampleType(), .workoutType()], read: [.activitySummaryType(), .workoutType(), .audiogramSampleType()]) { (result, error) in
+                        if result{
+                            clouser(true)
+                        }else{
+                            clouser(false)
+                        }
+                    }
+                } else {
+                    HKHealthStore().requestAuthorization(toShare: [.workoutType()], read: [.activitySummaryType(), .workoutType()]) { (result, error) in
+                        if result{
+                            clouser(true)
+                        }else{
+                            clouser(false)
+                        }
+                    }
+                }
+            case .sharingDenied:
+                clouser(false)
+            case .sharingAuthorized:
+                clouser(true)
+            @unknown default:
+                clouser(false)
+            }
+        }else{
+            clouser(false)
+        }
+    }
 }
+

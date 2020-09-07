@@ -8,7 +8,7 @@
 
 import UIKit
 
-import Contacts
+import HealthKit
 
 class ViewController: UIViewController {
     
@@ -16,18 +16,19 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         
-
+        
     }
     
+    
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        SystemAuth.authEvent { (result) in
-            if result{
-                print("权限开启")
-            }else{
-                print("权限未开启")
-            }
-        }
-             
+                SystemAuth.authHealth { (result) in
+                    if result{
+                        print("权限开启")
+                    }else{
+                        print("权限未开启")
+                    }
+                }
     }
     
     func authLocation(){

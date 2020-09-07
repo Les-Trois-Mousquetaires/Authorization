@@ -71,11 +71,11 @@
 	<key>NSFileProviderPresenceUsageDescription</key>
 	<string>件提供程序状态使用说明</string>
 	<key>NSHealthClinicalHealthRecordsShareUsageDescription</key>
-	<string>健康记录使用说明</string>
+	<string>Vsit "Health" and read the number of steps</string>
 	<key>NSHealthShareUsageDescription</key>
-	<string>健康分享使用说明</string>
+	<string>Vsit "Health" and read the number of steps</string>
 	<key>NSHealthUpdateUsageDescription</key>
-	<string>健康更新使用说明</string>
+	<string>Vsit "Health" and read the number of steps</string>
 	<key>NSHomeKitUsageDescription</key>
 	<string>HomeKit使用说明</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
