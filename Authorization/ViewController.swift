@@ -14,15 +14,11 @@ class ViewController: UIViewController {
     let mana = CBCentralManager()
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        
+
     }
-    
-    
-    
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        SystemAuth.authCamera { (result) in
+        SystemAuth.authPush { (result) in
             if result{
                 print("权限开启")
             }else{
@@ -31,7 +27,6 @@ class ViewController: UIViewController {
         }
         
         //        bluetooth()
-        
     }
     
     func bluetooth() {

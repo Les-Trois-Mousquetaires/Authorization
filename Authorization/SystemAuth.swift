@@ -507,17 +507,25 @@ public class SystemAuth {
                 if #available(iOS 13.0, *) {
                     HKHealthStore().requestAuthorization(toShare: [.audiogramSampleType(), .workoutType()], read: [.activitySummaryType(), .workoutType(), .audiogramSampleType()]) { (result, error) in
                         if result{
-                            clouser(true)
+                            DispatchQueue.main.async {
+                                clouser(true)
+                            }
                         }else{
-                            clouser(false)
+                            DispatchQueue.main.async {
+                                clouser(false)
+                            }
                         }
                     }
                 } else {
                     HKHealthStore().requestAuthorization(toShare: [.workoutType()], read: [.activitySummaryType(), .workoutType()]) { (result, error) in
                         if result{
-                            clouser(true)
+                            DispatchQueue.main.async {
+                                clouser(true)
+                            }
                         }else{
-                            clouser(false)
+                            DispatchQueue.main.async {
+                                clouser(false)
+                            }
                         }
                     }
                 }
@@ -554,6 +562,38 @@ public class SystemAuth {
             if (HMHomeManager().primaryHome != nil) {
                 clouser(true)
             }else{
+                clouser(false)
+            }
+        }
+    }
+    
+    /**
+     推送
+     
+     - parameters: action 权限结果闭包
+     */
+    class func authPush(clouser: @escaping AuthClouser) {
+        UNUserNotificationCenter.current().getNotificationSettings(){ (setttings) in
+            switch setttings.authorizationStatus {
+            case .notDetermined:
+                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .carPlay, .sound]) { (result, error) in
+                    if result{
+                        DispatchQueue.main.async {
+                            clouser(true)
+                        }
+                    }else{
+                        DispatchQueue.main.async {
+                            clouser(false)
+                        }
+                    }
+                }
+            case .denied:
+                clouser(false)
+            case .authorized:
+                clouser(true)
+            case .provisional:
+                clouser(true)
+            @unknown default:
                 clouser(false)
             }
         }
