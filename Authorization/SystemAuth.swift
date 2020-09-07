@@ -263,20 +263,33 @@ public class SystemAuth {
     }
     
     /**
-     通知权限
+     推送权限
      
      - parameters: action 权限结果闭包
      */
     class func authNotification(clouser: @escaping AuthClouser){
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .carPlay, .sound]) { (result, error) in
-            if result{
-                DispatchQueue.main.async {
-                    clouser(true)
+        UNUserNotificationCenter.current().getNotificationSettings(){ (setttings) in
+            switch setttings.authorizationStatus {
+            case .notDetermined:
+                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .carPlay, .sound]) { (result, error) in
+                    if result{
+                        DispatchQueue.main.async {
+                            clouser(true)
+                        }
+                    }else{
+                        DispatchQueue.main.async {
+                            clouser(false)
+                        }
+                    }
                 }
-            }else{
-                DispatchQueue.main.async {
-                    clouser(false)
-                }
+            case .denied:
+                clouser(false)
+            case .authorized:
+                clouser(true)
+            case .provisional:
+                clouser(true)
+            @unknown default:
+                clouser(false)
             }
         }
     }
@@ -565,37 +578,5 @@ public class SystemAuth {
                 clouser(false)
             }
         }
-    }
-    
-    /**
-     推送
-     
-     - parameters: action 权限结果闭包
-     */
-    class func authPush(clouser: @escaping AuthClouser) {
-        UNUserNotificationCenter.current().getNotificationSettings(){ (setttings) in
-            switch setttings.authorizationStatus {
-            case .notDetermined:
-                UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .carPlay, .sound]) { (result, error) in
-                    if result{
-                        DispatchQueue.main.async {
-                            clouser(true)
-                        }
-                    }else{
-                        DispatchQueue.main.async {
-                            clouser(false)
-                        }
-                    }
-                }
-            case .denied:
-                clouser(false)
-            case .authorized:
-                clouser(true)
-            case .provisional:
-                clouser(true)
-            @unknown default:
-                clouser(false)
-            }
-        }
-    }
+    }    
 }

@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        SystemAuth.authPush { (result) in
+        SystemAuth.authNotification { (result) in
             if result{
                 print("权限开启")
             }else{
