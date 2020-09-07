@@ -16,6 +16,7 @@
 		271D0FDE2501E361004D616C /* SystemAuth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271D0FDD2501E361004D616C /* SystemAuth.swift */; };
 		271D0FE02502262C004D616C /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 271D0FDF2502262C004D616C /* MapKit.framework */; };
 		273A8A802505C5AA00676DBE /* HealthKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273A8A7F2505C5AA00676DBE /* HealthKit.framework */; };
+		273A8A822505CAFB00676DBE /* HomeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 273A8A812505CAFB00676DBE /* HomeKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		271D0FDF2502262C004D616C /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		271D0FE125023FFB004D616C /* Authorization.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Authorization.entitlements; sourceTree = "<group>"; };
 		273A8A7F2505C5AA00676DBE /* HealthKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HealthKit.framework; path = System/Library/Frameworks/HealthKit.framework; sourceTree = SDKROOT; };
+		273A8A812505CAFB00676DBE /* HomeKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HomeKit.framework; path = System/Library/Frameworks/HomeKit.framework; sourceTree = SDKROOT; };
 		92160A3F8AE7057983744154 /* Pods-Authorization.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Authorization.debug.xcconfig"; path = "Target Support Files/Pods-Authorization/Pods-Authorization.debug.xcconfig"; sourceTree = "<group>"; };
 		ECE9780E91249D411429943B /* Pods_Authorization.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Authorization.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -42,6 +44,7 @@
 			files = (
 				273A8A802505C5AA00676DBE /* HealthKit.framework in Frameworks */,
 				271D0FE02502262C004D616C /* MapKit.framework in Frameworks */,
+				273A8A822505CAFB00676DBE /* HomeKit.framework in Frameworks */,
 				177BB705FB82DEDCA43C5E59 /* Pods_Authorization.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -94,6 +97,7 @@
 		EF9F05F797403D462D5BEED2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				273A8A812505CAFB00676DBE /* HomeKit.framework */,
 				273A8A7F2505C5AA00676DBE /* HealthKit.framework */,
 				271D0FDF2502262C004D616C /* MapKit.framework */,
 				ECE9780E91249D411429943B /* Pods_Authorization.framework */,

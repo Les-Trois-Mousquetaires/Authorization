@@ -8,7 +8,7 @@
 
 import UIKit
 
-import HealthKit
+import HomeKit
 
 class ViewController: UIViewController {
     
@@ -22,13 +22,37 @@ class ViewController: UIViewController {
     
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-                SystemAuth.authHealth { (result) in
-                    if result{
-                        print("权限开启")
-                    }else{
-                        print("权限未开启")
-                    }
-                }
+//        SystemAuth.authHealth { (result) in
+//            if result{
+//                print("权限开启")
+//            }else{
+//                print("权限未开启")
+//            }
+//        }
+        
+        let homeman = HMHomeManager.init()
+        homeman.delegate = self
+        
+        if #available(iOS 13.0, *) {
+            switch homeman.authorizationStatus {
+            case .authorized:
+                print("开启了")
+            case .determined:
+                print("拒绝")
+            case .restricted:
+                print("受限制的")
+            default:
+                break
+            }
+        } else {
+            // Fallback on earlier versions
+            let pri = homeman.primaryHome
+            if (pri != nil) {
+                print("数据获取")
+            }else{
+                print("未数据获取或者没有权限")
+            }
+        }
     }
     
     func authLocation(){
@@ -46,4 +70,9 @@ class ViewController: UIViewController {
             }
         }
     }
+}
+
+
+extension ViewController: HMHomeDelegate, HMHomeManagerDelegate{
+    
 }

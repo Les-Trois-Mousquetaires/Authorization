@@ -23,6 +23,7 @@ import EventKit
 /// Face、TouchID
 import LocalAuthentication
 import HealthKit
+import HomeKit
 /**
  escaping 逃逸闭包的生命周期：
  
@@ -530,6 +531,32 @@ public class SystemAuth: NSObject {
             }
         }else{
             clouser(false)
+        }
+    }
+    
+    /**
+     家庭、住宅数据
+     
+     - parameters: action 权限结果闭包
+     */
+    class func authHomeKit(clouser: @escaping AuthClouser) {
+        if #available(iOS 13.0, *) {
+            switch HMHomeManager().authorizationStatus {
+            case .authorized:
+                clouser(true)
+            case .determined:
+                clouser(false)
+            case .restricted:
+                clouser(false)
+            default:
+                clouser(false)
+            }
+        } else {
+            if (HMHomeManager().primaryHome != nil) {
+                clouser(true)
+            }else{
+              clouser(false)
+            }
         }
     }
 }
