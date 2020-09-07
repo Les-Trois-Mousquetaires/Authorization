@@ -24,7 +24,16 @@ import EventKit
 import LocalAuthentication
 import HealthKit
 import HomeKit
-import CoreBluetooth
+/// 运动与健身权限
+import CoreMotion
+/// 防止获取无效 计步器
+private let cmPedometer = CMPedometer()
+
+typealias AuthClouser = ((Bool)->())
+
+/// 定义私有全局变量,解决在iOS 13 定位权限弹框自动消失的问题
+private let locationAuthManager = CLLocationManager()
+
 /**
  escaping 逃逸闭包的生命周期：
  
@@ -38,25 +47,14 @@ import CoreBluetooth
  异步调用: 如果需要调度队列中异步调用闭包，比如网络请求成功的回调和失败的回调，这个队列会持有闭包的引用，至于什么时候调用闭包，或闭包什么时候运行结束都是不确定，上边的例子。
  存储: 需要存储闭包作为属性，全局变量或其他类型做稍后使用，例子待补充
  */
-
-typealias AuthClouser = ((Bool)->())
-
-/// 定义私有全局变量,解决在iOS 13 定位权限弹框自动消失的问题
-private let locationAuthManager = CLLocationManager()
-
-/// 运动与健身权限
-import CoreMotion
-/// 防止获取无效 计步器
-private let cmPedometer = CMPedometer()
-
-public extension UIViewController {
+public class SystemAuth {
     
     /**
      媒体资料库/Apple Music权限
      
      - parameters: action 权限结果闭包
      */
-    internal class func authMediaPlayerService(clouser :@escaping AuthClouser) {
+    class func authMediaPlayerService(clouser :@escaping AuthClouser) {
         let authStatus = MPMediaLibrary.authorizationStatus()
         switch authStatus {
         /// 未作出选择
@@ -92,7 +90,7 @@ public extension UIViewController {
      
      - parameters: action 权限结果闭包
      */
-    internal class func authNetwork(clouser: @escaping AuthClouser) {
+    class func authNetwork(clouser: @escaping AuthClouser) {
         
         let reachabilityManager = NetworkReachabilityManager(host: "www.baidu.com")
         switch reachabilityManager?.status {
@@ -143,7 +141,7 @@ public extension UIViewController {
      
      - parameters: action 权限结果闭包
      */
-    internal class func authCamera(clouser: @escaping AuthClouser) {
+    class func authCamera(clouser: @escaping AuthClouser) {
         let authStatus = AVCaptureDevice.authorizationStatus(for: .video)
         switch authStatus {
         case .notDetermined:
@@ -174,7 +172,7 @@ public extension UIViewController {
      
      - parameters: action 权限结果闭包
      */
-    internal class func authPhotoLib(clouser: @escaping AuthClouser) {
+    class func authPhotoLib(clouser: @escaping AuthClouser) {
         let authStatus = PHPhotoLibrary.authorizationStatus()
         switch authStatus {
         case .notDetermined:
@@ -205,7 +203,7 @@ public extension UIViewController {
      
      - parameters: action 权限结果闭包
      */
-    internal class func authMicrophone(clouser: @escaping AuthClouser) {
+    class func authMicrophone(clouser: @escaping AuthClouser) {
         let authStatus = AVAudioSession.sharedInstance().recordPermission
         switch authStatus {
         case .undetermined:
@@ -234,7 +232,7 @@ public extension UIViewController {
      
      - parameters: action 权限结果闭包(有无权限,是否第一次请求权限)
      */
-    internal class func authLocation(clouser: @escaping ((Bool,Bool)->())) {
+    class func authLocation(clouser: @escaping ((Bool,Bool)->())) {
         let authStatus = CLLocationManager.authorizationStatus()
         switch authStatus {
         case .notDetermined:
@@ -269,7 +267,7 @@ public extension UIViewController {
      
      - parameters: action 权限结果闭包
      */
-    internal class func authNotification(clouser: @escaping AuthClouser){
+    class func authNotification(clouser: @escaping AuthClouser){
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .carPlay, .sound]) { (result, error) in
             if result{
                 DispatchQueue.main.async {
@@ -288,7 +286,7 @@ public extension UIViewController {
      
      - parameters: action 权限结果闭包
      */
-    internal class func authCMPedometer(clouser: @escaping AuthClouser){
+    class func authCMPedometer(clouser: @escaping AuthClouser){
         cmPedometer.queryPedometerData(from: Date(), to: Date()) { (pedometerData, error) in
             if pedometerData?.numberOfSteps != nil{
                 DispatchQueue.main.async {
@@ -307,7 +305,7 @@ public extension UIViewController {
      
      - parameters: action 权限结果闭包
      */
-    internal class func authContacts(clouser: @escaping AuthClouser){
+    class func authContacts(clouser: @escaping AuthClouser){
         let authStatus = CNContactStore.authorizationStatus(for: .contacts)
         switch authStatus {
         case .notDetermined:
@@ -338,7 +336,7 @@ public extension UIViewController {
      
      - parameters: action 权限结果闭包
      */
-    internal class func authSiri(clouser: @escaping AuthClouser){
+    class func authSiri(clouser: @escaping AuthClouser){
         let authStatus = INPreferences.siriAuthorizationStatus()
         switch authStatus {
         case .notDetermined:
@@ -369,7 +367,7 @@ public extension UIViewController {
      
      - parameters: action 权限结果闭包
      */
-    internal class func authSpeechRecognition(clouser: @escaping AuthClouser){
+    class func authSpeechRecognition(clouser: @escaping AuthClouser){
         let authStatus = SFSpeechRecognizer.authorizationStatus()
         switch authStatus {
         case .notDetermined:
@@ -400,7 +398,7 @@ public extension UIViewController {
      
      - parameters: action 权限结果闭包
      */
-    internal class func authRreminder(clouser: @escaping AuthClouser){
+    class func authRreminder(clouser: @escaping AuthClouser){
         let authStatus = EKEventStore.authorizationStatus(for: .reminder)
         switch authStatus {
         case .notDetermined:
@@ -431,7 +429,7 @@ public extension UIViewController {
      
      - parameters: action 权限结果闭包
      */
-    internal class func authEvent(clouser: @escaping AuthClouser){
+    class func authEvent(clouser: @escaping AuthClouser){
         let authStatus = EKEventStore.authorizationStatus(for: .event)
         switch authStatus {
         case .notDetermined:
@@ -462,7 +460,7 @@ public extension UIViewController {
      
      - parameters: action 权限结果闭包
      */
-    internal class func authFaceOrTouchID(clouser: @escaping ((Bool,Error)->())) {
+    class func authFaceOrTouchID(clouser: @escaping ((Bool,Error)->())) {
         let context = LAContext()
         var error: NSError?
         let result = context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error)
@@ -501,7 +499,7 @@ public extension UIViewController {
      
      - parameters: action 权限结果闭包
      */
-    internal class func authHealth(clouser: @escaping AuthClouser){
+    class func authHealth(clouser: @escaping AuthClouser){
         if HKHealthStore.isHealthDataAvailable(){
             let authStatus = HKHealthStore().authorizationStatus(for: .workoutType())
             switch authStatus {
@@ -540,7 +538,7 @@ public extension UIViewController {
      
      - parameters: action 权限结果闭包
      */
-    internal class func authHomeKit(clouser: @escaping AuthClouser) {
+    class func authHomeKit(clouser: @escaping AuthClouser) {
         if #available(iOS 13.0, *) {
             switch HMHomeManager().authorizationStatus {
             case .authorized:

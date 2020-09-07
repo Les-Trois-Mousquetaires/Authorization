@@ -22,7 +22,7 @@ class ViewController: UIViewController {
     
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        UIViewController.authCamera { (result) in
+        SystemAuth.authCamera { (result) in
             if result{
                 print("权限开启")
             }else{
@@ -56,7 +56,7 @@ class ViewController: UIViewController {
     
     func authLocation(){
         
-        ViewController.authLocation { (result, isFirst) in
+        SystemAuth.authLocation { (result, isFirst) in
             if result{
                 print("权限开启")
             }else{
