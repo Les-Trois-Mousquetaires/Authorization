@@ -578,5 +578,25 @@ public class SystemAuth {
                 clouser(false)
             }
         }
-    }    
+    }
+    
+    /**
+    系统设置
+    
+    - parameters: action 结果闭包
+    */
+    class func authSetting(clouser: @escaping AuthClouser) {
+        let url = URL(string: UIApplication.openSettingsURLString)!
+        if UIApplication.shared.canOpenURL(url){
+            UIApplication.shared.open(url, options: [:]) { (result) in
+                if result{
+                    clouser(true)
+                }else{
+                    clouser(false)
+                }
+            }
+        }else{
+            clouser(false)
+        }
+    }
 }
