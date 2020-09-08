@@ -581,12 +581,19 @@ public class SystemAuth {
     }
     
     /**
-    系统设置
-    
-    - parameters: action 结果闭包
-    */
-    class func authSetting(clouser: @escaping AuthClouser) {
-        let url = URL(string: UIApplication.openSettingsURLString)!
+     系统设置
+     
+     - parameters: urlString 可以为系统,也可以为微信:weixin://、QQ:mqq://
+     - parameters: action 结果闭包
+     */
+    class func authSystemSetting(urlString :String?, clouser: @escaping AuthClouser) {
+        var url: URL
+        if (urlString != nil) && urlString?.count ?? 0 > 0 {
+            url = URL(string: urlString!)!
+        }else{
+            url = URL(string: UIApplication.openSettingsURLString)!
+        }
+        
         if UIApplication.shared.canOpenURL(url){
             UIApplication.shared.open(url, options: [:]) { (result) in
                 if result{

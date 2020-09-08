@@ -14,17 +14,17 @@ class ViewController: UIViewController {
     let mana = CBCentralManager()
     override func viewDidLoad() {
         super.viewDidLoad()
-
+  
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        SystemAuth.authNotification { (result) in
+        SystemAuth.authSystemSetting(urlString: nil, clouser: { (result) in
             if result{
                 print("权限开启")
             }else{
                 print("权限未开启")
             }
-        }
+        })
         
         //        bluetooth()
     }
